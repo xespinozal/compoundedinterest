@@ -1,77 +1,64 @@
-def calculate_compound_interest(principal, rate, time, compounding_frequency):
+def calculate_simple_interest():
     """
-    Calculates the future value of an investment or loan with compound interest.
+    Calculates simple interest based on user-provided principal,
+    annual interest rate, and time period.
 
-    Args:
-        principal (float): The initial principal balance.
-        rate (float): The annual interest rate (as a decimal).
-        time (float): The number of years the money is invested or borrowed for.
-        compounding_frequency (int): The number of times that interest is compounded per year.
+    This function prompts the user for the necessary inputs,
+    performs input validation to ensure they are valid numeric values
+    within acceptable ranges, calculates the simple interest and
+    the total amount, and then displays the results in a user-friendly format.
 
     Returns:
-        float: The future value of the investment/loan, including interest.
-
-    Raises:
-        TypeError: if any of the input arguments are not of the expected type (float or int).
-        ValueError: if rate or compounding_frequency are non-positive.
-
-    Examples:
-        >>> calculate_compound_interest(1000, 0.05, 3, 1) # Annually
-        1157.625
-        >>> calculate_compound_interest(1000, 0.05, 3, 12) # Monthly
-        1161.472274864486
+        None. The function prints the calculated results to the console.
     """
-    # Input validation with type and value checks
-    if not isinstance(principal, (int, float)):
-        raise TypeError("Principal must be a numeric value.")
-    if not isinstance(rate, (int, float)):
-        raise TypeError("Interest rate must be a numeric value.")
-    if not isinstance(time, (int, float)):
-        raise TypeError("Time must be a numeric value.")
-    if not isinstance(compounding_frequency, int):
-        raise TypeError("Compounding frequency must be an integer.")
+    while True:
+        try:
+            principal = float(input("Enter the principal amount: "))
+            if principal < 0:
+                print("Error: Principal amount cannot be negative.")
+                continue
+            break
+        except ValueError:
+            print("Error: Invalid input. Please enter a numeric value for the principal.")
 
-    if rate <= 0:
-        raise ValueError("Interest rate must be a positive value.")
-    if compounding_frequency <= 0:
-        raise ValueError("Compounding frequency must be a positive integer.")
+    while True:
+        try:
+            rate = float(input("Enter the annual interest rate (as a decimal, e.g., 0.05 for 5%): "))
+            if not 0 <= rate <= 1:
+                print("Error: Invalid interest rate. Please enter a decimal between 0 and 1.")
+                continue
+            break
+        except ValueError:
+            print("Error: Invalid input. Please enter a numeric value for the interest rate.")
 
-    # Formula for compound interest:
-    # A = P (1 + r/n)^(nt)
-    # Where:
-    # A = the future value of the investment/loan, including interest
-    # P = the principal investment amount (the initial deposit or loan amount)
-    # r = the annual interest rate (as a decimal)
-    # n = the number of times that interest is compounded per year
-    # t = the number of years the money is invested or borrowed for
+    while True:
+        try:
+            time = float(input("Enter the time period in years: "))
+            if time <= 0:
+                print("Error: Time period must be a positive number.")
+                continue
+            break
+        except ValueError:
+            print("Error: Invalid input. Please enter a numeric value for the time period.")
 
-    amount = principal * (1 + rate / compounding_frequency)**(compounding_frequency * time)
-    return amount
+    # Calculate simple interest using the formula: I = P * R * T
+    interest = principal * rate * time
+
+    # Calculate the total amount: A = P + I
+    total_amount = principal + interest
+
+    # Display the results with clear formatting
+    print("\nSimple Interest Calculation:")
+    print("--------------------------")
+    print(f"Principal Amount: ${principal:.2f}")
+    print(f"Annual Interest Rate: {rate * 100:.2f}%")
+    print(f"Time Period: {time:.2f} years")
+    print(f"Simple Interest: ${interest:.2f}")
+    print(f"Total Amount (Principal + Interest): ${total_amount:.2f}")
 
 if __name__ == "__main__":
-    # Example usage of the function
-    principal_amount = 1000  # Initial investment
-    annual_interest_rate = 0.05  # 5% annual interest rate
-    investment_time = 5  # Investment period of 5 years
-    compounded_annually = 1
-    compounded_monthly = 12
-
-    # Calculate and print the future value with annual compounding
-    future_value_annually = calculate_compound_interest(principal_amount, annual_interest_rate, investment_time, compounded_annually)
-    print(f"Future value compounded annually: ${future_value_annually:.2f}")
-
-    # Calculate and print the future value with monthly compounding
-    future_value_monthly = calculate_compound_interest(principal_amount, annual_interest_rate, investment_time, compounded_monthly)
-    print(f"Future value compounded monthly: ${future_value_monthly:.2f}")
-
-    try:
-        # Example of invalid input
-        calculate_compound_interest(1000, -0.02, 2, 4)
-    except ValueError as e:
-        print(f"Error: {e}")
-
-    try:
-        # Example of invalid input type
-        calculate_compound_interest("1000", 0.05, 3, 1)
-    except TypeError as e:
-        print(f"Error: {e}")
+    """
+    This block ensures that the 'calculate_simple_interest()' function
+    is executed only when the script is run directly.
+    """
+    calculate_simple_interest()
